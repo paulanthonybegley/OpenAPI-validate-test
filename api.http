@@ -1,0 +1,21 @@
+POST http://localhost:3000/foo/bar/records
+Content-Type: application/json
+
+{
+    "criteria":"foo",
+    "start":1,
+    "rows":100,
+    "foo":"bar"
+}
+
+###
+
+POST http://localhost:3000/foo/bar/records
+Content-Type: application/json
+
+{
+  
+    
+    "rows":"one hundred",
+    "foo":"bar"
+}
