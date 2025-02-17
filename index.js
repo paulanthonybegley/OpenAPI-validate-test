@@ -6,6 +6,7 @@ const {OpenApiValidator} = require('express-openapi-validate')
 const app = express()
 const port = 3000
 
+
 const openApiDocument =jsYaml.load(
     fs.readFileSync('./spec/api.spec.yaml','utf-8')
 );
@@ -20,9 +21,7 @@ const validator = new OpenApiValidator(openApiDocument,
 
 app.use(express.json())
 
-app.get('/',(req,res)=> {
-    res.send('Hello world')
-})
+
 
 app.post('/:dataset/:version/records',validator.validate("post",'/{dataset}/{version}/records'),(req,res,next)=>{
     
@@ -31,6 +30,11 @@ app.post('/:dataset/:version/records',validator.validate("post",'/{dataset}/{ver
     
     res.send(`Got a post request, dataset ${dataset}, version ${version} body ${JSON.stringify(req.body)}`)
 })
+
+app.get('/', (req, res) => {
+    res.setHeader('X-Request-Id','hello')
+    res.json({version: '1.0.0'})
+});
 
 app.use((err,req,res,next) => {
     const statusCode = err.statusCode || 500;
@@ -48,3 +52,5 @@ app.use((err,req,res,next) => {
 app.listen(port,() =>{
     console.log(`Example listening on ${port}`)
 })
+
+module.exports = app
